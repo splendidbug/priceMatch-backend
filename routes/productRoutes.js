@@ -6,7 +6,10 @@ router.use(cors());
 const {
   getProducts,
   createProduct,
+  getProductsWithHomePageCategory,
+  searchProducts,
 } = require("../controllers/productController");
-router.route("/").get(getProducts).post(createProduct);
-
+router.route("/products").get(getProducts);
+router.route("/").get(getProductsWithHomePageCategory).post(createProduct);
+router.route("/search?").get(searchProducts);
 module.exports = router;

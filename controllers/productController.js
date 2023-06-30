@@ -9,6 +9,30 @@ const getProducts = asyncHandler(async (req, res) => {
   res.status(200).json(products);
 });
 
+//@desc Get all contacts
+//@route GET /api/contacts
+//@acceess public
+const getProductsWithHomePageCategory = asyncHandler(async (req, res) => {
+  const products = await Products.find({ homePageCategory: { $exists: true } });
+  res.status(200).json(products);
+});
+
+//@desc Get all contacts
+//@route GET /api/contacts
+//@acceess public
+const searchProducts = asyncHandler(async (req, res) => {
+  const searchQuery = req.query.q;
+  //   console.log(searchWords);
+
+  const products = await Products.find({
+    productName: {
+      $regex: searchQuery,
+      $options: "i", // Case-insensitive search
+    },
+  });
+  res.status(200).json(products);
+});
+
 //@desc Create product
 //@route POST /api/products
 //@acceess public
@@ -40,4 +64,9 @@ const createProduct = asyncHandler(async (req, res) => {
 
   res.status(201).json({ message: "Contact Received", products });
 });
-module.exports = { getProducts, createProduct };
+module.exports = {
+  getProducts,
+  createProduct,
+  getProductsWithHomePageCategory,
+  searchProducts,
+};
